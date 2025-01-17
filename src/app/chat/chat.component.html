@@ -1,0 +1,116 @@
+<div class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex">
+  <!-- Sidebar -->
+  <div class="w-64 bg-gray-800 border-r border-gray-700">
+    <!-- User Profile -->
+    <div class="p-4 border-b border-gray-700">
+      <div class="flex items-center space-x-4">
+        <div
+          class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center"
+        >
+          <span class="text-white font-bold">JD</span>
+        </div>
+        <div>
+          <h3 class="text-white font-medium">John Doe</h3>
+          <p class="text-gray-400 text-sm">Online</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat History -->
+    <div class="p-4">
+      <h4 class="text-gray-400 text-sm font-medium mb-4">Recent Chats</h4>
+      <div class="space-y-2">
+        <button
+          class="w-full text-left p-3 rounded-lg hover:bg-gray-700 text-gray-300"
+        >
+          <div class="font-medium">General Chat</div>
+          <div class="text-sm text-gray-400">Last message...</div>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Chat Area -->
+  <div class="flex-1 flex flex-col">
+    <!-- Chat Header -->
+    <div class="bg-gray-800 border-b border-gray-700 p-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-white font-medium">Chat with AI</h2>
+        <button class="text-gray-400 hover:text-white">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      <!-- AI Message -->
+      <div *ngFor="let message of messages">
+        <div *ngIf="message.role == 'model'" class="flex items-start space-x-3">
+          <div
+            class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center"
+          >
+            <span class="text-white text-sm">AI</span>
+          </div>
+          <div class="flex-1">
+            <div class="bg-gray-700 rounded-lg p-3 text-white max-w-xl">
+              <p>{{ message.text }}</p>
+            </div>
+            <span class="text-xs text-gray-400 mt-1">12:01 PM</span>
+          </div>
+        </div>
+
+        <!-- User Message -->
+        <div
+          *ngIf="message.role == 'user'"
+          class="flex items-start space-x-3 justify-end"
+        >
+          <div class="flex-1 text-right">
+            <div
+              class="bg-blue-600 rounded-lg p-3 text-white inline-block text-left max-w-xl ml-auto"
+            >
+              <p>{{ message.text }}</p>
+            </div>
+            <span class="block text-xs text-gray-400 mt-1">12:02 PM</span>
+          </div>
+          <div
+            class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center"
+          >
+            <span class="text-white text-sm">ME</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="bg-gray-800 border-t border-gray-700 p-4">
+      <div class="flex space-x-4">
+        <input
+          type="text"
+          class="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="Type your message..."
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()"
+        />
+        <button
+          class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition-colors"
+          (click)="sendMessage()"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
