@@ -46,9 +46,12 @@
   <div class="flex-1 flex flex-col max-h-screen">
     <!-- Chat Header -->
     <div class="bg-gray-800 border-b border-gray-700 p-4">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between relative">
         <h2 class="text-white font-medium">Chat with AI</h2>
-        <button class="text-gray-400 hover:text-white">
+        <button
+          class="text-gray-400 hover:text-white"
+          (click)="isDropdownOpen = !isDropdownOpen"
+        >
           <svg
             class="w-6 h-6"
             fill="none"
@@ -63,6 +66,26 @@
             />
           </svg>
         </button>
+        <!-- Dropdown Menu -->
+        <div
+          *ngIf="isDropdownOpen"
+          class="absolute right-0 top-5 mt-5 w-48 rounded-md shadow-lg bg-gray-700 ring-1 ring-black ring-opacity-5"
+        >
+          <div class="py-1" role="menu" aria-orientation="vertical">
+            <button
+              (click)="newChat()"
+              class="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-600 hover:text-white"
+            >
+              New Chat
+            </button>
+            <button
+              (click)="deleteChat()"
+              class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-600 hover:text-red-600"
+            >
+              Delete Chat
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -77,7 +100,7 @@
             <span class="text-white text-sm">AI</span>
           </div>
           <div class="flex-1">
-            <div class="bg-gray-700 rounded-lg p-3 text-white max-w-xl">
+            <div class="bg-gray-700 rounded-lg p-3 text-white max-w-[65%]">
               <p>{{ message.text }}</p>
             </div>
             <span class="text-xs text-gray-400 mt-1">{{ message.date }}</span>
@@ -91,7 +114,7 @@
         >
           <div class="flex-1 text-right">
             <div
-              class="bg-blue-600 rounded-lg p-3 text-white inline-block text-left max-w-xl ml-auto"
+              class="bg-blue-600 rounded-lg p-3 text-white inline-block text-left max-w-[65%] ml-auto"
             >
               <p>{{ message.text }}</p>
             </div>

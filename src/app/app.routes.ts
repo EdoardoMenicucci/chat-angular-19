@@ -26,8 +26,4 @@ export const routes: Routes = [
     path: 'signin',
     component: RegisterComponent,
   },
-  {
-    path: 'chat',
-    component: ChatComponent,
-  },
 ];

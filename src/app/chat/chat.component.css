@@ -1,0 +1,15 @@
+::ng-deep .dx-menu {
+  background-color: transparent !important;
+}
+
+::ng-deep .dx-menu-item {
+  color: #ffffff !important;
+}
+
+::ng-deep .dx-menu-item:hover {
+  background-color: rgba(55, 65, 81, 0.5) !important;
+}
+
+::ng-deep .dx-menu-item-content {
+  padding: 8px 12px;
+}

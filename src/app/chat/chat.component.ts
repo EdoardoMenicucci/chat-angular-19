@@ -7,10 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { Message, Chat } from '../interfaces/d.interface';
 import { WebSocketService } from '../services/web-socket.service';
 import { AuthService } from '../services/auth.service';
+import { DxToolbarComponent } from 'devextreme-angular/ui/toolbar';
+import { DxMenuModule, DxMenuComponent } from 'devextreme-angular/ui/menu';
 
 @Component({
   selector: 'app-chat',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DxMenuModule],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })
@@ -21,6 +23,10 @@ export class ChatComponent {
   isRegistering: boolean = false;
   previousChat: Chat[] | null = [];
   username: string = '';
+
+  //UI
+
+  isDropdownOpen: boolean = false;
 
   private authErrorSubscription!: Subscription;
   private messageSubscription!: Subscription;
@@ -86,6 +92,28 @@ export class ChatComponent {
         console.error('Error fetching messages:', error);
       },
     });
+  }
+
+  deleteChat(): void {
+    const chatId = this.chatService.chatId;
+    if (chatId == null) {
+      console.error('ChatId non definito!');
+      return;
+    }
+    this.chatService.deleteChat(chatId!).subscribe({
+      next: () => {
+        console.log('Chat eliminata con successo!');
+        this.newChat();
+      },
+      error: (error) => {
+        console.error('Errore nella cancellazione della chat:', error);
+      },
+    });
+  }
+
+  newChat(): void {
+    this.chatService.chatId = null;
+    this.messages = [];
   }
 
   formatDate(date: Date): string {

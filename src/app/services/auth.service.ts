@@ -65,7 +65,7 @@ export class AuthService {
       tap((response: any) => {
         if (response.token) this.setToken(response.token);
         if (response.userId) this.setUserId(response.userId);
-        if (response.user) this.setUsername(response.user);
+        if (response.username) this.setUsername(response.username);
       })
     );
   }
@@ -82,7 +82,7 @@ export class AuthService {
             this.setUserId(response.userId);
             console.log('User ID:', this.userId);
           }
-          if (response.user) this.setUsername(response.user);
+          if (response.username) this.setUsername(response.username);
         })
       );
   }
@@ -90,6 +90,8 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_ID);
+    localStorage.removeItem(this.USER_NAME);
+    this.username = null;
     this.userId = null;
     this.token = '';
   }

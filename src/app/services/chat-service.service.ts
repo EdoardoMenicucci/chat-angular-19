@@ -32,6 +32,10 @@ export class ChatService {
     return this.http.get<Chat[]>(`${this.apiUrl}/user/${userId}/chats`);
   }
 
+  deleteChat(chatId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${chatId}/delete`);
+  }
+
   sendMessage(message: string): void {
     if (this.chatId) {
       this.webSocketService.sendMessage({
