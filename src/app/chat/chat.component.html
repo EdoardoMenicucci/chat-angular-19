@@ -27,11 +27,16 @@
       <h4 class="text-gray-400 text-sm font-medium mb-4">Recent Chats</h4>
       <div *ngFor="let chat of previousChat" class="space-y-2">
         <button
+          *ngIf="chat.messages.length > 0"
           class="w-full text-left p-3 rounded-lg hover:bg-gray-700 text-gray-300"
           (click)="selectChat(chat)"
         >
-          <div class="font-medium">General Chat</div>
-          <div class="text-sm text-gray-400">{{ chat.id }}</div>
+          <div class="font-medium">
+            <span>{{ trimMessage(chat.messages[0].text) }}</span>
+          </div>
+          <div class="text-sm text-gray-400">
+            {{ formatDate(chat.createdAt) }}
+          </div>
         </button>
       </div>
     </div>

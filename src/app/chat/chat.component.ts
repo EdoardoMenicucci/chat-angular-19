@@ -87,6 +87,14 @@ export class ChatComponent {
     });
   }
 
+  formatDate(date: Date): string {
+    return new Date(date).toLocaleString();
+  }
+
+  trimMessage(message: string): string {
+    return message.length > 10 ? message.slice(0, 20) + '...' : message;
+  }
+
   ngOnInit(): void {
     this.authErrorSubscription = this.authService
       .getAuthErrors()
