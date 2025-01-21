@@ -19,6 +19,7 @@ export class RegisterComponent {
 
   public registerForm: registerForm = {
     username: '',
+    email: '',
     password: '',
   };
 
