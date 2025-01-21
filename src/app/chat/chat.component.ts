@@ -4,7 +4,9 @@ import { ChatService } from '../services/chat-service.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Message, Chat } from '../interfaces/auth.interface';
+import { Message, Chat } from '../interfaces/d.interface';
+import { WebSocketService } from '../services/web-socket.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -22,10 +24,15 @@ export class ChatComponent {
   private authErrorSubscription!: Subscription;
   private messageSubscription!: Subscription;
 
-  constructor(private chatService: ChatService, private router: Router) {}
+  constructor(
+    private chatService: ChatService,
+    private router: Router,
+    private webSocketService: WebSocketService,
+    private authService: AuthService
+  ) {}
 
   private initializeConnection(): void {
-    this.messageSubscription = this.chatService.onMessage().subscribe({
+    this.messageSubscription = this.webSocketService.onMessage().subscribe({
       next: (data) => {
         console.log('Messaggio ricevuto: ', data);
         this.messages.push(data);
@@ -38,7 +45,7 @@ export class ChatComponent {
 
   sendMessage(): void {
     if (this.chatService.chatId === null) {
-      this.chatService.createChat(this.chatService.userId!).subscribe({
+      this.chatService.createChat(this.authService.userId!).subscribe({
         next: (chatId: any) => {
           this.chatService.chatId = chatId.chatId;
           console.log('Chat creata con successo con id:', chatId);
@@ -58,7 +65,7 @@ export class ChatComponent {
   }
 
   logout(): void {
-    this.chatService.logout();
+    this.authService.logout();
     this.router.navigate(['/home']);
   }
 
@@ -72,7 +79,7 @@ export class ChatComponent {
           role: message.sender === 'user' ? 'user' : 'model',
           date: new Date(message.timestamp).toLocaleString(),
         }));
-        console.log(this.messages);
+        // console.log(this.messages);
       },
       error: (error) => {
         console.error('Error fetching messages:', error);
@@ -81,7 +88,7 @@ export class ChatComponent {
   }
 
   ngOnInit(): void {
-    this.authErrorSubscription = this.chatService
+    this.authErrorSubscription = this.authService
       .getAuthErrors()
       .subscribe((error) => {
         console.error('Errore di autenticazione:', error);
@@ -105,6 +112,6 @@ export class ChatComponent {
     if (this.authErrorSubscription) {
       this.authErrorSubscription.unsubscribe();
     }
-    this.chatService.closeConnection();
+    this.webSocketService.disconnect();
   }
 }

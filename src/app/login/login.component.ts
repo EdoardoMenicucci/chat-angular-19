@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ChatService } from '../services/chat-service.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { loginForm } from '../interfaces/auth.interface';
+import { loginForm } from '../interfaces/d.interface';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -22,16 +22,16 @@ export class LoginComponent implements OnInit, OnDestroy {
     password: '',
   };
 
-  constructor(private chatService: ChatService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     // Controlla autenticazione iniziale
-    if (this.chatService.isAuthenticated()) {
+    if (this.authService.isAuthenticated()) {
       this.isAuthenticated = true;
       this.router.navigate(['/chat']);
     }
     // Sottoscrizione agli errori di autenticazione
-    this.authErrorSubscription = this.chatService
+    this.authErrorSubscription = this.authService
       .getAuthErrors()
       .subscribe(() => {
         this.isAuthenticated = false;
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   handleLogin(): void {
-    this.chatService.login(this.loginForm).subscribe({
+    this.authService.login(this.loginForm).subscribe({
       next: () => {
         this.isAuthenticated = true;
         this.router.navigate(['/chat']);

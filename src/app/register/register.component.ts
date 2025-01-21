@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { registerForm } from '../interfaces/auth.interface';
+import { registerForm } from '../interfaces/d.interface';
 import { ChatService } from '../services/chat-service.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -23,16 +24,16 @@ export class RegisterComponent {
     password: '',
   };
 
-  constructor(private chatService: ChatService, private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     // Controlla autenticazione iniziale
-    if (this.chatService.isAuthenticated()) {
+    if (this.authService.isAuthenticated()) {
       this.isAuthenticated = true;
       this.router.navigate(['/chat']);
     }
     // Sottoscrizione agli errori di autenticazione
-    this.authErrorSubscription = this.chatService
+    this.authErrorSubscription = this.authService
       .getAuthErrors()
       .subscribe(() => {
         this.isAuthenticated = false;
@@ -42,7 +43,7 @@ export class RegisterComponent {
   }
 
   handleRegister(): void {
-    this.chatService.register(this.registerForm).subscribe({
+    this.authService.register(this.registerForm).subscribe({
       next: () => {
         this.isAuthenticated = true;
         this.router.navigate(['/chat']);
