@@ -2,3 +2,42 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Stili custom per markdown */
+@layer components {
+  .markdown h1 {
+    @apply text-3xl font-bold mb-4 mt-6;
+  }
+
+  .markdown h2 {
+    @apply text-2xl font-bold mb-3 mt-5;
+  }
+
+  .markdown h3 {
+    @apply text-xl font-bold mb-2 mt-4;
+  }
+
+  .markdown h4 {
+    @apply text-lg font-bold mb-2 mt-3;
+  }
+
+  .markdown p {
+    @apply mb-4;
+  }
+
+  .markdown ul {
+    @apply list-disc ml-6 mb-4;
+  }
+
+  .markdown ol {
+    @apply list-decimal ml-6 mb-4;
+  }
+
+  .markdown code {
+    @apply bg-gray-800 rounded px-1;
+  }
+
+  .markdown pre {
+    @apply bg-gray-800 rounded p-4 mb-4;
+  }
+}

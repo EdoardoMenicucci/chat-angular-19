@@ -101,7 +101,10 @@
           </div>
           <div class="flex-1">
             <div class="bg-gray-700 rounded-lg p-3 text-white max-w-[65%]">
-              <p>{{ message.text }}</p>
+              <!-- <p>{{ message.text }}</p> -->
+              <markdown class="markdown variable-binding">{{
+                message.text
+              }}</markdown>
             </div>
             <span class="text-xs text-gray-400 mt-1">{{ message.date }}</span>
           </div>

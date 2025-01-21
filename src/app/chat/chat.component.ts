@@ -7,12 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { Message, Chat } from '../interfaces/d.interface';
 import { WebSocketService } from '../services/web-socket.service';
 import { AuthService } from '../services/auth.service';
-import { DxToolbarComponent } from 'devextreme-angular/ui/toolbar';
 import { DxMenuModule, DxMenuComponent } from 'devextreme-angular/ui/menu';
+import { MarkdownComponent } from 'ngx-markdown';
 
 @Component({
   selector: 'app-chat',
-  imports: [CommonModule, FormsModule, DxMenuModule],
+  imports: [CommonModule, FormsModule, DxMenuModule, MarkdownComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })

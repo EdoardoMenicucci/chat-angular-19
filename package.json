@@ -21,6 +21,9 @@
     "devextreme": "24.2.3",
     "devextreme-angular": "24.2.3",
     "devextreme-schematics": "^1.8.0",
+    "marked": "^15.0.0",
+    "ngx-markdown": "^19.0.0",
+    "prismjs": "^1.28.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
