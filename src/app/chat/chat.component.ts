@@ -20,6 +20,7 @@ export class ChatComponent {
   isAuthenticated: boolean = false;
   isRegistering: boolean = false;
   previousChat: Chat[] | null = [];
+  username: string = '';
 
   private authErrorSubscription!: Subscription;
   private messageSubscription!: Subscription;
@@ -95,6 +96,14 @@ export class ChatComponent {
     return message.length > 10 ? message.slice(0, 20) + '...' : message;
   }
 
+  getUsername(): void {
+    this.username = this.authService.username ?? 'errire';
+  }
+
+  firstLetter(name: string): string {
+    return name[0].toUpperCase();
+  }
+
   ngOnInit(): void {
     this.authErrorSubscription = this.authService
       .getAuthErrors()
@@ -110,6 +119,7 @@ export class ChatComponent {
       error: (error) => console.error('Error loading chats:', error),
     });
     this.initializeConnection();
+    this.getUsername();
   }
 
   ngOnDestroy(): void {

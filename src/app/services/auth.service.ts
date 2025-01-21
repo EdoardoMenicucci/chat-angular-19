@@ -10,7 +10,10 @@ import { Observable, Subject, tap } from 'rxjs';
 export class AuthService {
   private readonly TOKEN_KEY = 'chat_token';
   private readonly USER_ID = 'user_id';
+  private readonly USER_NAME = 'user_name';
+
   private token: string = '';
+  public username: string | null = null;
   private authError = new Subject<boolean>();
   public userId: number | null = null;
 
@@ -31,6 +34,11 @@ export class AuthService {
     } else {
       console.error('User ID not found');
     }
+    const savedUsername = localStorage.getItem(this.USER_NAME);
+    if (savedUsername) {
+      console.log('Username:', savedUsername);
+      this.username = savedUsername;
+    }
   }
 
   getToken(): string {
@@ -47,11 +55,17 @@ export class AuthService {
     localStorage.setItem(this.USER_ID, userId.toString());
   }
 
+  setUsername(username: string): void {
+    this.username = username;
+    localStorage.setItem(this.USER_NAME, username);
+  }
+
   login(credentials: loginForm): Observable<any> {
     return this.http.post('http://localhost:5000/auth/login', credentials).pipe(
       tap((response: any) => {
         if (response.token) this.setToken(response.token);
         if (response.userId) this.setUserId(response.userId);
+        if (response.user) this.setUsername(response.user);
       })
     );
   }
@@ -68,6 +82,7 @@ export class AuthService {
             this.setUserId(response.userId);
             console.log('User ID:', this.userId);
           }
+          if (response.user) this.setUsername(response.user);
         })
       );
   }
