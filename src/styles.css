@@ -21,8 +21,16 @@
     @apply text-lg font-bold mb-2 mt-3;
   }
 
+  .markdown h5 {
+    @apply text-[1rem] font-bold mb-2 mt-3;
+  }
+
+  .markdown h6 {
+    @apply text-[1rem] font-semibold mb-2 mt-3;
+  }
+
   .markdown p {
-    @apply mb-4;
+    @apply mb-1;
   }
 
   .markdown ul {
@@ -39,5 +47,17 @@
 
   .markdown pre {
     @apply bg-gray-800 rounded p-4 mb-4;
+  }
+
+  .markdown table,
+  tr,
+  th,
+  td {
+    /* table styles */
+    @apply border border-gray-500 p-1;
+  }
+
+  .markdown a {
+    @apply underline;
   }
 }

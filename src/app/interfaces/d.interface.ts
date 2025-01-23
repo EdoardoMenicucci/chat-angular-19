@@ -7,6 +7,13 @@ export interface registerForm {
   username: string;
   email: string;
   password: string;
+  color?: string;
+}
+
+export interface registerBackendForm {
+  username: string;
+  email: string;
+  password: string;
 }
 
 export interface Chat {

@@ -5,7 +5,8 @@
     <div class="p-4 border-b border-gray-700">
       <div class="flex items-center space-x-4">
         <div
-          class="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center"
+          [style.background-color]="userColor"
+          class="w-10 h-10 rounded-full flex items-center justify-center"
         >
           <span class="text-white font-bold">{{ firstLetter(username) }}</span>
         </div>
@@ -100,7 +101,9 @@
             <span class="text-white text-sm">AI</span>
           </div>
           <div class="flex-1">
-            <div class="bg-gray-700 rounded-lg p-3 text-white max-w-[65%]">
+            <div
+              class="border border-gray-500 rounded-lg p-3 text-white max-w-[65%]"
+            >
               <!-- <p>{{ message.text }}</p> -->
               <markdown class="markdown variable-binding">{{
                 message.text
@@ -117,7 +120,8 @@
         >
           <div class="flex-1 text-right">
             <div
-              class="bg-blue-600 rounded-lg p-3 text-white inline-block text-left max-w-[65%] ml-auto"
+              [style.border-color]="userColor"
+              class="bg-gray-800 border rounded-lg p-3 text-white inline-block text-left max-w-[65%] ml-auto"
             >
               <p>{{ message.text }}</p>
             </div>
@@ -126,7 +130,8 @@
             }}</span>
           </div>
           <div
-            class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center"
+            [style.background-color]="userColor"
+            class="w-8 h-8 rounded-full flex items-center justify-center"
           >
             <span class="text-white text-sm">{{ firstLetter(username) }}</span>
           </div>

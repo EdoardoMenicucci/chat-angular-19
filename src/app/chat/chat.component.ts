@@ -9,6 +9,7 @@ import { WebSocketService } from '../services/web-socket.service';
 import { AuthService } from '../services/auth.service';
 import { DxMenuModule, DxMenuComponent } from 'devextreme-angular/ui/menu';
 import { MarkdownComponent } from 'ngx-markdown';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-chat',
@@ -23,6 +24,7 @@ export class ChatComponent {
   isRegistering: boolean = false;
   previousChat: Chat[] | null = [];
   username: string = '';
+  userColor: string = '#3B82F6'; // default color
 
   //UI
 
@@ -35,7 +37,8 @@ export class ChatComponent {
     private chatService: ChatService,
     private router: Router,
     private webSocketService: WebSocketService,
-    private authService: AuthService
+    private authService: AuthService,
+    private themeService: ThemeService
   ) {}
 
   private initializeConnection(): void {
@@ -50,6 +53,12 @@ export class ChatComponent {
     });
   }
 
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/home']);
+  }
+
+  /////////////// Funzioni di Chat //////////////////////
   sendMessage(): void {
     if (this.chatService.chatId === null) {
       this.chatService.createChat(this.authService.userId!).subscribe({
@@ -69,11 +78,6 @@ export class ChatComponent {
       this.chatService.sendMessage(this.newMessage); // Invia il messaggio al backend
       this.newMessage = ''; // Resetta l'input
     }
-  }
-
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/home']);
   }
 
   selectChat(chat: Chat): void {
@@ -116,6 +120,11 @@ export class ChatComponent {
     this.messages = [];
   }
 
+  getUsername(): void {
+    this.username = this.authService.username ?? 'errire';
+  }
+
+  /////////////// Funzioni di utilità //////////////////////
   formatDate(date: Date): string {
     return new Date(date).toLocaleString();
   }
@@ -124,14 +133,11 @@ export class ChatComponent {
     return message.length > 10 ? message.slice(0, 20) + '...' : message;
   }
 
-  getUsername(): void {
-    this.username = this.authService.username ?? 'errire';
-  }
-
   firstLetter(name: string): string {
     return name[0].toUpperCase();
   }
 
+  /////////////// Ciclo Vita //////////////////////
   ngOnInit(): void {
     this.authErrorSubscription = this.authService
       .getAuthErrors()
@@ -148,6 +154,7 @@ export class ChatComponent {
     });
     this.initializeConnection();
     this.getUsername();
+    this.userColor = this.themeService.getUserColor();
   }
 
   ngOnDestroy(): void {
@@ -160,4 +167,5 @@ export class ChatComponent {
     }
     this.webSocketService.disconnect();
   }
+  /////////////////////////////////////////////////////
 }

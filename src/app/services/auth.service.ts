@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { loginForm, registerForm } from '../interfaces/d.interface';
-import { ChatService } from './chat-service.service';
+import {
+  loginForm,
+  registerForm,
+  registerBackendForm,
+} from '../interfaces/d.interface';
 import { Observable, Subject, tap } from 'rxjs';
 
 @Injectable({
@@ -71,8 +74,14 @@ export class AuthService {
   }
 
   register(credentials: registerForm): Observable<any> {
+    const backendCredentials: registerBackendForm = {
+      username: credentials.username,
+      email: credentials.email,
+      password: credentials.password,
+    };
+
     return this.http
-      .post('http://localhost:5000/auth/register', credentials)
+      .post('http://localhost:5000/auth/register', backendCredentials)
       .pipe(
         tap((response: any) => {
           if (response.token) {
