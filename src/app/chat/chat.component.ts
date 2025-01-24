@@ -20,6 +20,15 @@ import { ThemeService } from '../services/theme.service';
 export class ChatComponent {
   messages: Array<{ text: string; role: string; date: string }> = [];
   newMessage: string = '';
+
+  //STREAMED MESSAGE
+  currentStreamingMessage: {
+    text: string;
+    role: string;
+    date: string;
+  } | null = null;
+  isStreaming: boolean = false;
+
   isAuthenticated: boolean = false;
   isRegistering: boolean = false;
   previousChat: Chat[] | null = [];
@@ -45,7 +54,24 @@ export class ChatComponent {
     this.messageSubscription = this.webSocketService.onMessage().subscribe({
       next: (data) => {
         console.log('Messaggio ricevuto: ', data);
-        this.messages.push(data);
+        if (data.role === 'user') {
+          this.isStreaming = false;
+          if (this.currentStreamingMessage) {
+            this.messages.push(this.currentStreamingMessage!);
+            this.currentStreamingMessage = null // Aggiungi il messaggio in streaming alla chat
+          }
+          this.messages.push(data); // Aggiungi il messaggio alla chat
+          this.isStreaming = true;
+        } else {
+          if (!this.currentStreamingMessage) {
+            this.currentStreamingMessage = {
+              text: '',
+              role: 'model',
+              date: new Date().toLocaleString(),
+             };
+          }
+          this.currentStreamingMessage.text += data.text; // Aggiorna il messaggio in streaming
+        }
       },
       error: (e) => {
         console.error('Errore nella ricezione del messaggio:', e);

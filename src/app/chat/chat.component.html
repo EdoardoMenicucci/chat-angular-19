@@ -113,6 +113,8 @@
           </div>
         </div>
 
+
+
         <!-- User Message -->
         <div
           *ngIf="message.role == 'user'"
@@ -137,6 +139,23 @@
           </div>
         </div>
       </div>
+
+      <!-- Streaming response -->
+        <div *ngIf="isStreaming == true" class="flex items-start space-x-3">
+          <div
+            class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center"
+          >
+            <span class="text-white text-sm">AI</span>
+          </div>
+          <div class="flex-1">
+            <div
+              class="border border-gray-500 rounded-lg p-3 text-white max-w-[65%]"
+            >
+              <markdown class="markdown variable-binding" *ngIf="isStreaming" [data]="currentStreamingMessage?.text || ''"></markdown>
+            </div>
+          </div>
+        </div>
+
     </div>
 
     <!-- Input Area -->
