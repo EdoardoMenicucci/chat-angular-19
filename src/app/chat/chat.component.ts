@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { Message, Chat } from '../interfaces/d.interface';
 import { WebSocketService } from '../services/web-socket.service';
 import { AuthService } from '../services/auth.service';
-import { DxMenuModule, DxMenuComponent } from 'devextreme-angular/ui/menu';
+import { DxMenuModule } from 'devextreme-angular/ui/menu';
 import { MarkdownComponent } from 'ngx-markdown';
 import { ThemeService } from '../services/theme.service';
 
